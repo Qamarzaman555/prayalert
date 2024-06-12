@@ -15,33 +15,10 @@ class HomeVU extends StackedView<HomeVM> {
   Widget builder(BuildContext context, HomeVM viewModel, Widget? child) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
-        title: const Text('On Prayer'),
-        centerTitle: true,
-        bottom: PreferredSize(
-            preferredSize: Size(MediaQuery.sizeOf(context).width, 0.6),
-            child: const Divider(
-              color: AppColors.dividerColor,
-            )),
-      ),
+      appBar: appBar(context),
       body: Column(
         children: [
-          Container(
-            height: MediaQuery.sizeOf(context).height / 3.5,
-            width: MediaQuery.sizeOf(context).width,
-            decoration: const BoxDecoration(
-                color: AppColors.imageBackgroundColor,
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(16),
-                  bottomLeft: Radius.circular(16),
-                )),
-            child: const Image(
-              image: AssetImage('assets/images/mosque.png'),
-              fit: BoxFit.fill,
-            ),
-          ),
+          headerImage(context),
           24.spaceY,
           Flexible(
             child: StreamBuilder(
@@ -92,7 +69,7 @@ class HomeVU extends StackedView<HomeVM> {
                                 dateTime: date
                                     .subtract(Duration(minutes: minutesBefore)),
                                 id: snapshot.data!.docs.indexOf(doc),
-                                title: 'Reminder: $name',
+                                title: 'Prayer Time: $formattedTime',
                                 body: 'It\'s almost time to pray $name',
                               );
                             } else {
@@ -121,11 +98,11 @@ class HomeVU extends StackedView<HomeVM> {
                       sortColumnIndex: 0,
                       sortAscending: true,
                       columnSpacing: MediaQuery.sizeOf(context).width * 0.07,
-                      columns: const [
-                        DataColumn(label: Text('Prayers')),
-                        DataColumn(label: Text('Jamat')),
-                        DataColumn(label: Text('Duration')),
-                        DataColumn(label: Text('Status')),
+                      columns: [
+                        DataColumn(label: customText('Prayers')),
+                        DataColumn(label: customText('Jamat')),
+                        DataColumn(label: customText('Duration')),
+                        DataColumn(label: customText('Status')),
                       ],
                       rows: dataRows,
                     ),
@@ -136,6 +113,41 @@ class HomeVU extends StackedView<HomeVM> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget customText(String text) {
+    return Text(text, style: const TextStyle(fontWeight: FontWeight.bold));
+  }
+
+  Widget headerImage(BuildContext context) {
+    return Container(
+      height: MediaQuery.sizeOf(context).height / 3.5,
+      width: MediaQuery.sizeOf(context).width,
+      decoration: const BoxDecoration(
+          color: AppColors.imageBackgroundColor,
+          borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(16),
+            bottomLeft: Radius.circular(16),
+          )),
+      child: const Image(
+        image: AssetImage('assets/images/mosque.png'),
+        fit: BoxFit.fill,
+      ),
+    );
+  }
+
+  AppBar appBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+      title: const Text('On Prayer'),
+      centerTitle: true,
+      bottom: PreferredSize(
+          preferredSize: Size(MediaQuery.sizeOf(context).width, 0.6),
+          child: const Divider(
+            color: AppColors.dividerColor,
+          )),
     );
   }
 

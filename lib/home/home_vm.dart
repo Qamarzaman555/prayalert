@@ -28,34 +28,17 @@ class HomeVM extends BaseViewModel {
     int hour = dateTime.hour;
 
     if (hour >= 2 && hour < 8) {
-      return customImage('assets/icons/fajar.png'); // Fajr
+      return customImage('assets/icons/fajar.png');
     } else if (hour >= 8 && hour < 15) {
-      return customImage('assets/icons/zuhr.png'); // Dhuhr
+      return customImage('assets/icons/zuhr.png');
     } else if (hour >= 15 && hour < 18) {
-      return customImage('assets/icons/asar.png'); // Asr
+      return customImage('assets/icons/asar.png');
     } else if (hour >= 18 && hour < 19) {
-      return customImage('assets/icons/maghrib.png'); // Maghrib
+      return customImage('assets/icons/maghrib.png');
     } else if (hour >= 19 && hour < 24) {
-      return customImage('assets/icons/isha.png',
-          height: 16.0, width: 16.0); // Isha
+      return customImage('assets/icons/isha.png', height: 16.0, width: 16.0);
     } else {
-      return const Icon(Icons.access_time); // Default icon for other times
+      return const Icon(Icons.access_time);
     }
-  }
-
-  Future<void> sendTestNotification() async {
-    await flutterLocalNotificationsPlugin.show(
-      0,
-      'Test Notification',
-      'This is a test notification',
-      const NotificationDetails(
-        android: AndroidNotificationDetails(
-          'test_channel',
-          'Test Notifications',
-          importance: Importance.max,
-          priority: Priority.high,
-        ),
-      ),
-    );
   }
 }

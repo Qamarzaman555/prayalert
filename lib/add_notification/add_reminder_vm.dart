@@ -5,10 +5,13 @@ import 'package:stacked/stacked.dart';
 import '../models/prayer_model.dart';
 import '../notification_services/notifications.dart';
 
-class AddVM extends BaseViewModel {
+class AddReminderVM extends BaseViewModel {
+  final prayerController = TextEditingController();
+  final timeController = TextEditingController();
+  final minutesController = TextEditingController();
   DateTime dateTime = DateTime.now();
 
-  AddVM();
+  AddReminderVM();
 
   Future<void> addOrUpdateReminder(
       BuildContext context, PrayerModel prayer) async {
@@ -35,12 +38,8 @@ class AddVM extends BaseViewModel {
           prayer.sortOrder = 6;
           break;
         default:
-          prayer.sortOrder = 7; // Default value for any other prayers
+          prayer.sortOrder = 7;
       }
-
-      // Debugging: print the assigned sortOrder and minutesBefore
-      debugPrint(
-          'Assigned sortOrder: ${prayer.sortOrder} and minutesBefore: ${prayer.minutesBefore} for prayer: ${prayer.prayerName}');
 
       await FirebaseFirestore.instance
           .collection('Notifications')
