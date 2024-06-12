@@ -43,12 +43,13 @@ class HomeVU extends StackedView<HomeVM> {
                   String formattedTime = DateFormat.jm().format(date);
                   bool on = doc.get('onOff');
                   int sortOrder = doc.get('sortOrder');
+                  int minutesBefore = doc.get('minutesBefore');
 
                   return DataRow(
                     cells: [
                       DataCell(Text(name)),
                       DataCell(Text(formattedTime)),
-                      const DataCell(Text('20 Mins')),
+                      DataCell(Text('$minutesBefore Mins')),
                       DataCell(
                         Checker(
                           onOff: on,
@@ -57,8 +58,8 @@ class HomeVU extends StackedView<HomeVM> {
                           onToggle: (value) {
                             if (value) {
                               Notifications.showNotifications(
-                                dateTime:
-                                    date.subtract(const Duration(minutes: 20)),
+                                dateTime: date
+                                    .subtract(Duration(minutes: minutesBefore)),
                                 id: snapshot.data!.docs.indexOf(doc),
                                 title: 'Reminder: $name',
                                 body: 'It\'s almost time to pray $name',

@@ -11,6 +11,7 @@ class AddVU extends StackedView<AddVM> {
   Widget builder(BuildContext context, AddVM viewModel, Widget? child) {
     final prayerController = TextEditingController();
     final timeController = TextEditingController();
+    final minutesController = TextEditingController(); // Add a new controller
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -25,12 +26,20 @@ class AddVU extends StackedView<AddVM> {
             decoration: const InputDecoration(labelText: 'Time (HH:mm)'),
             keyboardType: TextInputType.datetime,
           ),
+          TextField(
+            controller: minutesController, // Attach the controller
+            decoration: const InputDecoration(labelText: 'Minutes Before'),
+            keyboardType: TextInputType.number,
+          ),
           ElevatedButton(
             onPressed: () {
               final prayerName = prayerController.text;
               final timeText = timeController.text;
+              final minutesBefore = minutesController.text; // Capture the input
 
-              if (prayerName.isEmpty || timeText.isEmpty) {
+              if (prayerName.isEmpty ||
+                  timeText.isEmpty ||
+                  minutesBefore.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Please fill in all fields')),
                 );
@@ -48,9 +57,12 @@ class AddVU extends StackedView<AddVM> {
               final hour = int.tryParse(timeParts[0]);
               final minute = int.tryParse(timeParts[1]);
 
-              if (hour == null || minute == null) {
+              final minutes =
+                  int.tryParse(minutesBefore); // Parse minutesBefore
+
+              if (hour == null || minute == null || minutes == null) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Invalid time values')),
+                  const SnackBar(content: Text('Invalid input values')),
                 );
                 return;
               }
@@ -63,6 +75,7 @@ class AddVU extends StackedView<AddVM> {
                 prayerName: prayerName,
                 timestamp: Timestamp.fromDate(dateTime),
                 onOff: true,
+                minutesBefore: minutes, // Set minutesBefore
               );
 
               viewModel.addOrUpdateReminder(context, prayerModel);

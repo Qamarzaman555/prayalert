@@ -14,7 +14,7 @@ class AddVM extends BaseViewModel {
       BuildContext context, PrayerModel prayer) async {
     setBusy(true);
     try {
-      // Assign int to prayer names for sorting
+      // Assign sort order directly based on the prayer name
       switch (prayer.prayerName) {
         case 'Fajar':
           prayer.sortOrder = 1;
@@ -35,16 +35,21 @@ class AddVM extends BaseViewModel {
           prayer.sortOrder = 6;
           break;
         default:
-          prayer.sortOrder = 7;
+          prayer.sortOrder = 7; // Default value for any other prayers
       }
+
+      // Debugging: print the assigned sortOrder and minutesBefore
+      debugPrint(
+          'Assigned sortOrder: ${prayer.sortOrder} and minutesBefore: ${prayer.minutesBefore} for prayer: ${prayer.prayerName}');
 
       await FirebaseFirestore.instance
           .collection('Notifications')
           .doc(prayer.prayerName)
           .set(prayer.toJson());
 
-      DateTime notificationTime =
-          prayer.timestamp!.toDate().subtract(const Duration(minutes: 20));
+      DateTime notificationTime = prayer.timestamp!
+          .toDate()
+          .subtract(Duration(minutes: prayer.minutesBefore!));
 
       Notifications.showNotifications(
         dateTime: notificationTime,
