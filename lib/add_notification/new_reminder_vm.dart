@@ -15,8 +15,8 @@ class AddVM extends BaseViewModel {
     try {
       // Update Firestore path to 'Notifications'
       await FirebaseFirestore.instance
-          .collection('Notifications') // Update collection path here
-          .doc(prayer.prayerName) // Use prayer name as ID
+          .collection('Notifications')
+          .doc(prayer.prayerName)
           .set(prayer.toJson());
 
       // Schedule notification 20 minutes before prayer time

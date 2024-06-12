@@ -78,8 +78,8 @@ class HomeVU extends StackedView<HomeVM> {
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: DataTable(
-                        sortColumnIndex:
-                            null, // Ensures no column is used for sorting
+                        sortColumnIndex: 0,
+                        sortAscending: false,
                         columns: const [
                           DataColumn(label: Text('Prayers')),
                           DataColumn(label: Text('Time')),
