@@ -10,16 +10,39 @@ class AddVM extends BaseViewModel {
 
   AddVM();
 
-  Future<void> addReminder(BuildContext context, PrayerModel prayer) async {
+  Future<void> addOrUpdateReminder(
+      BuildContext context, PrayerModel prayer) async {
     setBusy(true);
     try {
-      // Update Firestore path to 'Notifications'
+      // Assign int to prayer names for sorting
+      switch (prayer.prayerName) {
+        case 'Fajar':
+          prayer.sortOrder = 1;
+          break;
+        case 'Zuhur':
+          prayer.sortOrder = 2;
+          break;
+        case 'Asar':
+          prayer.sortOrder = 3;
+          break;
+        case 'Maghrib':
+          prayer.sortOrder = 4;
+          break;
+        case 'Isha':
+          prayer.sortOrder = 5;
+          break;
+        case 'Jumma':
+          prayer.sortOrder = 6;
+          break;
+        default:
+          prayer.sortOrder = 7;
+      }
+
       await FirebaseFirestore.instance
           .collection('Notifications')
           .doc(prayer.prayerName)
           .set(prayer.toJson());
 
-      // Schedule notification 20 minutes before prayer time
       DateTime notificationTime =
           prayer.timestamp!.toDate().subtract(const Duration(minutes: 20));
 
@@ -32,7 +55,7 @@ class AddVM extends BaseViewModel {
 
       debugPrint('Reminder Added');
     } catch (e) {
-      debugPrint('Not Added');
+      debugPrint('Not Added: $e');
     }
     setBusy(false);
   }

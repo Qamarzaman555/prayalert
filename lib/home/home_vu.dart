@@ -35,12 +35,14 @@ class HomeVU extends StackedView<HomeVM> {
                   return const Center(child: Text('No Reminders'));
                 }
 
+                // Create and sort the data rows
                 List<DataRow> dataRows =
                     snapshot.data!.docs.map<DataRow>((doc) {
                   String name = doc.get('prayerName');
                   DateTime date = (doc.get('timestamp') as Timestamp).toDate();
                   String formattedTime = DateFormat.jm().format(date);
                   bool on = doc.get('onOff');
+                  int sortOrder = doc.get('sortOrder');
 
                   return DataRow(
                     cells: [
@@ -69,8 +71,14 @@ class HomeVU extends StackedView<HomeVM> {
                         ),
                       ),
                     ],
+                    key: ValueKey(sortOrder), // Use key for sorting
                   );
                 }).toList();
+
+                // Sort the data rows based on the sortOrder
+                dataRows.sort((a, b) => (a.key as ValueKey<int>)
+                    .value
+                    .compareTo((b.key as ValueKey<int>).value));
 
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -79,7 +87,7 @@ class HomeVU extends StackedView<HomeVM> {
                       scrollDirection: Axis.horizontal,
                       child: DataTable(
                         sortColumnIndex: 0,
-                        sortAscending: false,
+                        sortAscending: true,
                         columnSpacing: MediaQuery.sizeOf(context).width * 0.1,
                         columns: const [
                           DataColumn(label: Text('Prayers')),
@@ -97,13 +105,6 @@ class HomeVU extends StackedView<HomeVM> {
           ),
         ],
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-
-      //     viewModel.sendTestNotification();
-      //   },
-      //   child: const Icon(Icons.notification_important),
-      // ),
     );
   }
 

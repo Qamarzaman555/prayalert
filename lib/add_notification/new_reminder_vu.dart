@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-
-import 'new_reminder_vm.dart';
 import '../models/prayer_model.dart';
+import 'new_reminder_vm.dart';
 
 class AddVU extends StackedView<AddVM> {
   const AddVU({super.key});
@@ -66,7 +65,7 @@ class AddVU extends StackedView<AddVM> {
                 onOff: true,
               );
 
-              viewModel.addReminder(context, prayerModel);
+              viewModel.addOrUpdateReminder(context, prayerModel);
             },
             child: const Text('Set Prayer Time'),
           ),
