@@ -89,22 +89,25 @@ class HomeVU extends StackedView<HomeVM> {
                     .value
                     .compareTo((b.key as ValueKey<int>).value));
 
-                return Card(
-                  color: AppColors.backgroundColor,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: DataTable(
-                      headingRowHeight: 70,
-                      sortColumnIndex: 0,
-                      sortAscending: true,
-                      columnSpacing: MediaQuery.sizeOf(context).width * 0.07,
-                      columns: [
-                        DataColumn(label: customText('Prayers')),
-                        DataColumn(label: customText('Jamat')),
-                        DataColumn(label: customText('Duration')),
-                        DataColumn(label: customText('Status')),
-                      ],
-                      rows: dataRows,
+                return Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Card(
+                    color: AppColors.backgroundColor,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: DataTable(
+                        headingRowHeight: 70,
+                        sortColumnIndex: 0,
+                        sortAscending: true,
+                        columnSpacing: MediaQuery.sizeOf(context).width * 0.07,
+                        columns: [
+                          DataColumn(label: customText('Prayers')),
+                          DataColumn(label: customText('Jamat')),
+                          DataColumn(label: customText('Duration')),
+                          DataColumn(label: customText('Status')),
+                        ],
+                        rows: dataRows,
+                      ),
                     ),
                   ),
                 );
