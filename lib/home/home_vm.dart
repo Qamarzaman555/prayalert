@@ -15,10 +15,7 @@ class HomeVM extends BaseViewModel {
   }
 
   Stream<QuerySnapshot> reminderStream() {
-    return firestore
-        .collection('Notifications') // Update collection path here
-
-        .snapshots();
+    return firestore.collection('Notifications').snapshots();
   }
 
   void listenNotifications() {

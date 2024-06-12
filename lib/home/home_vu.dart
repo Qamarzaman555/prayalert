@@ -18,7 +18,7 @@ class HomeVU extends StackedView<HomeVM> {
       ),
       body: Column(
         children: [
-          // const AddVU(),
+          const AddVU(),
           Expanded(
             child: StreamBuilder(
               stream: viewModel.reminderStream(),
@@ -80,6 +80,7 @@ class HomeVU extends StackedView<HomeVM> {
                       child: DataTable(
                         sortColumnIndex: 0,
                         sortAscending: false,
+                        columnSpacing: MediaQuery.sizeOf(context).width * 0.1,
                         columns: const [
                           DataColumn(label: Text('Prayers')),
                           DataColumn(label: Text('Time')),
