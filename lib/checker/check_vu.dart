@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../constants/app_colors.dart';
 import '../models/reminder_model.dart';
 
 class CustomSwitch extends StatelessWidget {
@@ -23,7 +24,9 @@ class CustomSwitch extends StatelessWidget {
         height: 25,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.5),
-          color: value ? Colors.green : Colors.grey,
+          color: value
+              ? AppColors.selectedSwitchColor
+              : AppColors.disableSwitchColor,
         ),
         child: Stack(
           children: [

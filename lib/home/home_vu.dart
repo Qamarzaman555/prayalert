@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:prayalert/constants/utils.dart';
 import 'package:stacked/stacked.dart';
-import '../add_notification/new_reminder_vu.dart';
 import '../checker/check_vu.dart';
+import '../constants/app_colors.dart';
 import '../notification_services/notifications.dart';
 import 'home_vm.dart';
 
@@ -13,13 +14,36 @@ class HomeVU extends StackedView<HomeVM> {
   @override
   Widget builder(BuildContext context, HomeVM viewModel, Widget? child) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Prayer Times'),
+        backgroundColor: Colors.transparent,
+        leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+        title: const Text('On Prayer'),
+        centerTitle: true,
+        bottom: PreferredSize(
+            preferredSize: Size(MediaQuery.sizeOf(context).width, 0.6),
+            child: const Divider(
+              color: AppColors.dividerColor,
+            )),
       ),
       body: Column(
         children: [
-          const AddVU(),
-          Expanded(
+          Container(
+            height: MediaQuery.sizeOf(context).height / 3.5,
+            width: MediaQuery.sizeOf(context).width,
+            decoration: const BoxDecoration(
+                color: AppColors.imageBackgroundColor,
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(16),
+                  bottomLeft: Radius.circular(16),
+                )),
+            child: const Image(
+              image: AssetImage('assets/images/mosque.png'),
+              fit: BoxFit.fill,
+            ),
+          ),
+          24.spaceY,
+          Flexible(
             child: StreamBuilder(
               stream: viewModel.reminderStream(),
               builder: (context, snapshot) {
@@ -46,8 +70,15 @@ class HomeVU extends StackedView<HomeVM> {
                   int minutesBefore = doc.get('minutesBefore');
 
                   return DataRow(
-                    cells: [
-                      DataCell(Text(name)),
+                    cells: [...SizedBox(height:4),
+                      DataCell(Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          viewModel.getPrayerIcon(date),
+                          4.spaceX,
+                          Text(name),
+                        ],
+                      )),
                       DataCell(Text(formattedTime)),
                       DataCell(Text('$minutesBefore Mins')),
                       DataCell(
@@ -81,23 +112,22 @@ class HomeVU extends StackedView<HomeVM> {
                     .value
                     .compareTo((b.key as ValueKey<int>).value));
 
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: DataTable(
-                        sortColumnIndex: 0,
-                        sortAscending: true,
-                        columnSpacing: MediaQuery.sizeOf(context).width * 0.1,
-                        columns: const [
-                          DataColumn(label: Text('Prayers')),
-                          DataColumn(label: Text('Time')),
-                          DataColumn(label: Text('Duration')),
-                          DataColumn(label: Text('Status')),
-                        ],
-                        rows: dataRows,
-                      ),
+                return Card(
+                  color: AppColors.backgroundColor,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: DataTable(
+                      headingRowHeight: 70,
+                      sortColumnIndex: 0,
+                      sortAscending: true,
+                      columnSpacing: MediaQuery.sizeOf(context).width * 0.07,
+                      columns: const [
+                        DataColumn(label: Text('Prayers')),
+                        DataColumn(label: Text('Jamat')),
+                        DataColumn(label: Text('Duration')),
+                        DataColumn(label: Text('Status')),
+                      ],
+                      rows: dataRows,
                     ),
                   ),
                 );
