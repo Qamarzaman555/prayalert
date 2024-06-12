@@ -70,7 +70,7 @@ class HomeVU extends StackedView<HomeVM> {
                   int minutesBefore = doc.get('minutesBefore');
 
                   return DataRow(
-                    cells: [...SizedBox(height:4),
+                    cells: [
                       DataCell(Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
