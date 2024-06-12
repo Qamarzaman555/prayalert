@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "873001309849",
+    "project_id": "prayalert",
+    "storage_bucket": "prayalert.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873001309849:android:bbaa7c1d66d31bd54dca08",
+        "android_client_info": {
+          "package_name": "com.example.prayal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXxorHf-OViGImbTQdZaVfgP_mB94ri7A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873001309849:android:819ab9d11abe0de04dca08",
+        "android_client_info": {
+          "package_name": "com.example.prayalert"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXxorHf-OViGImbTQdZaVfgP_mB94ri7A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
