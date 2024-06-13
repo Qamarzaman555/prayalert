@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
+import '../constants/utils.dart';
 import '../models/prayer_model.dart';
 import '../notification_services/notifications.dart';
 
@@ -11,10 +12,16 @@ class AddReminderVM extends BaseViewModel {
   final minutesController = TextEditingController();
   DateTime dateTime = DateTime.now();
 
-  AddReminderVM();
+  AddReminderVM(context) {
+    Notifications.init(context);
+    listenNotifications();
+  }
 
-  Future<void> addOrUpdateReminder(
-      BuildContext context, PrayerModel prayer) async {
+  void listenNotifications() {
+    Notifications.onNotifications.listen((value) {});
+  }
+
+  Future<void> addOrUpdateReminder(context, PrayerModel prayer) async {
     setBusy(true);
     try {
       // Assign sort order directly based on the prayer name
@@ -56,9 +63,10 @@ class AddReminderVM extends BaseViewModel {
         body: '${prayer.prayerName} time',
         payload: 'prayer_reminder',
       );
-
+      Utils.toastMessage(context: context, text: 'Reminder Added');
       debugPrint('Reminder Added');
     } catch (e) {
+      Utils.toastMessage(context: context, text: 'Something Went Wrong...');
       debugPrint('Not Added: $e');
     }
     setBusy(false);

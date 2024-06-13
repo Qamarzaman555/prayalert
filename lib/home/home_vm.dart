@@ -16,12 +16,25 @@ class HomeVM extends BaseViewModel {
     listenNotifications();
   }
 
+  void listenNotifications() {
+    Notifications.onNotifications.listen((value) {});
+  }
+
   Stream<QuerySnapshot> reminderStream() {
     return firestore.collection('Notifications').snapshots();
   }
 
-  void listenNotifications() {
-    Notifications.onNotifications.listen((value) {});
+  Future<void> deleteNotification(
+      context, String id, int notificationId, String name) async {
+    try {
+      await firestore.collection('Notifications').doc(name).delete();
+      await Notifications.cancelNotification(id: notificationId);
+      Utils.toastMessage(context: context, text: 'Reminder Delted');
+    } catch (e) {
+      Utils.toastMessage(context: context, text: 'Something Went Wrong...');
+
+      debugPrint('Error deleting notification: $e');
+    }
   }
 
   Widget getPrayerIcon(DateTime dateTime) {

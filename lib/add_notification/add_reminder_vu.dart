@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:prayalert/constants/utils.dart';
 import 'package:stacked/stacked.dart';
 import '../models/prayer_model.dart';
+import '../notification_services/notifications.dart';
 import 'add_reminder_vm.dart';
 
 class AddReminderVU extends StackedView<AddReminderVM> {
@@ -82,6 +83,18 @@ class AddReminderVU extends StackedView<AddReminderVM> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await Notifications.showNotifications(
+            id: 0,
+            title: 'Test Notification',
+            body: 'This is a test notification body',
+            payload: 'Test Payload',
+            dateTime: DateTime.now().add(const Duration(seconds: 5)),
+          );
+        },
+        child: const Icon(Icons.notifications),
+      ),
     );
   }
 
@@ -93,5 +106,6 @@ class AddReminderVU extends StackedView<AddReminderVM> {
   }
 
   @override
-  AddReminderVM viewModelBuilder(BuildContext context) => AddReminderVM();
+  AddReminderVM viewModelBuilder(BuildContext context) =>
+      AddReminderVM(context);
 }

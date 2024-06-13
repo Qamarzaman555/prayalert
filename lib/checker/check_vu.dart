@@ -24,9 +24,7 @@ class CustomSwitch extends StatelessWidget {
         height: 25,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.5),
-          color: value
-              ? AppColors.selectedSwitchColor
-              : AppColors.disableSwitchColor,
+          color: value ? AppColors.selectedSwitchColor : AppColors.greyColor,
         ),
         child: Stack(
           children: [

@@ -47,6 +47,34 @@ class HomeVU extends StackedView<HomeVM> {
                   int minutesBefore = doc.get('minutesBefore');
 
                   return DataRow(
+                    onLongPress: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text('Delete Notification'),
+                            content: const Text(
+                                'Are you sure you want to delete this notification?'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  viewModel.deleteNotification(context, doc.id,
+                                      snapshot.data!.docs.indexOf(doc), name);
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('Delete'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
                     cells: [
                       DataCell(Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,9 +100,13 @@ class HomeVU extends StackedView<HomeVM> {
                                 title: 'Prayer Time: $formattedTime',
                                 body: 'It\'s almost time to pray $name',
                               );
+                              Utils.toastMessage(
+                                  context: context, text: 'Reminder Setted');
                             } else {
                               Notifications.cancelNotification(
                                   id: snapshot.data!.docs.indexOf(doc));
+                              Utils.toastMessage(
+                                  context: context, text: 'Reminder Cancelled');
                             }
                           },
                         ),

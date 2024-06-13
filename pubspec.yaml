@@ -44,6 +44,7 @@ dependencies:
   cloud_firestore: ^5.0.1
   flashy_tab_bar2: ^0.0.10
   persistent_bottom_nav_bar_v2: ^5.2.3
+  delightful_toast: ^1.1.0
 
 dev_dependencies:
   flutter_test:
